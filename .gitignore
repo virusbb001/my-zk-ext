@@ -1,2 +1,2 @@
 .direnv/
-test/notebooks/.zk/notebook.db
+test/*/.zk/notebook.db
