@@ -17,12 +17,13 @@ Deno.test("searchNotebooks", async t => {
   await copyTemplates(templatePath);
   const notebookPath = path.join(templatePath, "notebooks")
   const wrongPath = path.join(templatePath, "not-notebook")
+  const hasSomeTasks = path.join(templatePath, "has-some-tasks");
   await t.step({
     name: "options correct path",
     async fn () {
       Deno.env.delete(NotebookEnv);
-      const path = await searchNotebooks(notebookPath);
-      assertEquals(path, notebookPath);
+      const notebook = await searchNotebooks(notebookPath);
+      assertEquals(notebook, notebookPath);
     }
   });
 
@@ -30,26 +31,46 @@ Deno.test("searchNotebooks", async t => {
     name: "options wrong path",
     async fn () {
       Deno.env.delete(NotebookEnv);
-      const path = await searchNotebooks(wrongPath);
-      assertEquals(path, undefined);
+      const notebook = await searchNotebooks(wrongPath);
+      assertEquals(notebook, undefined);
     }
   });
 
   await t.step({
-    name: "correct ZK",
+    name: "ENV correct ZK",
     async fn () {
       Deno.env.set(NotebookEnv, notebookPath);
-      const path = await searchNotebooks();
-      assertEquals(path, notebookPath);
+      const notebook = await searchNotebooks();
+      assertEquals(notebook, notebookPath);
     }
   });
 
   await t.step({
-    name: "wrong ZK",
+    name: "ENV wrong ZK",
     async fn () {
       Deno.env.set(NotebookEnv, wrongPath);
-      const path = await searchNotebooks();
-      assertEquals(path, undefined);
+      const notebook = await searchNotebooks();
+      assertEquals(notebook, undefined);
+    }
+  });
+
+  await t.step({
+    name: "PWD correct ZK",
+    async fn () {
+      Deno.env.delete(NotebookEnv);
+      Deno.chdir(notebookPath);
+      const notebook = await searchNotebooks();
+      assertEquals(notebook, notebookPath);
+    }
+  });
+
+  await t.step({
+    name: "PWD descendants of correct  ZK",
+    async fn () {
+      Deno.env.delete(NotebookEnv);
+      Deno.chdir(path.join(hasSomeTasks, "Tasks"));
+      const notebook = await searchNotebooks();
+      assertEquals(notebook, hasSomeTasks);
     }
   });
   await Deno.remove(tmpDir, { recursive: true });
