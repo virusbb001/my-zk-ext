@@ -11,6 +11,8 @@ import { exists } from "@std/fs/exists";
 const ZkDir = ".zk";
 
 /**
+ * look up .zk directory.
+ * @returns - path of nearest .zk, or undefined when not found.
  */
 async function lookupZk(dir: string): Promise<string | undefined> {
   const root = path.parse(dir).root;
@@ -27,7 +29,7 @@ async function lookupZk(dir: string): Promise<string | undefined> {
 
 /**
  * search notebooks directory.
- *
+ * Mostly same of zk-org/zk `notebookSearchDirs`
  */
 export async function searchNotebooks (notebookDir?: string): Promise<string | undefined> {
   if (notebookDir && await exists(path.join(notebookDir,ZkDir))) {
