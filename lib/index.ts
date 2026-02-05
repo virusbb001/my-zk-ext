@@ -29,11 +29,13 @@ async function lookupZk(dir: string): Promise<string | undefined> {
  * search notebooks directory.
  *
  */
-export async function searchNotebooks (): Promise<string | undefined> {
-  // TODO: options
-  const notebookDir = Deno.env.get("ZK_NOTEBOOK_DIR");
+export async function searchNotebooks (notebookDir?: string): Promise<string | undefined> {
   if (notebookDir && await exists(path.join(notebookDir,ZkDir))) {
     return notebookDir;
+  }
+  const notebookEnvDir = Deno.env.get("ZK_NOTEBOOK_DIR");
+  if (notebookEnvDir && await exists(path.join(notebookEnvDir,ZkDir))) {
+    return notebookEnvDir;
   }
   return lookupZk(Deno.cwd());
 }

@@ -18,11 +18,20 @@ Deno.test("searchNotebooks", async t => {
   const notebookPath = path.join(templatePath, "notebooks")
   const wrongPath = path.join(templatePath, "not-notebook")
   await t.step({
-    name: "options",
-    ignore: true,
-    fn () {
+    name: "options correct path",
+    async fn () {
       Deno.env.delete(NotebookEnv);
-      // not implemented yet.
+      const path = await searchNotebooks(notebookPath);
+      assertEquals(path, notebookPath);
+    }
+  });
+
+  await t.step({
+    name: "options wrong path",
+    async fn () {
+      Deno.env.delete(NotebookEnv);
+      const path = await searchNotebooks(wrongPath);
+      assertEquals(path, undefined);
     }
   });
 
