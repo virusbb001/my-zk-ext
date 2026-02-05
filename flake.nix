@@ -14,6 +14,7 @@
         devShells.default = pkgs.mkShellNoCC {
           buildInputs = [
             pkgs.deno
+            pkgs.zk
           ];
         };
       }
