@@ -1,9 +1,21 @@
 {
   "tasks": {
-    "dev": "deno run --watch main.ts"
+    "dev": "deno run --watch main.ts",
+    "test": "deno test -P=test"
+  },
+  "permissions": {
+    "default": {
+    },
+    "test": {
+      "read": true,
+      "write": ["/tmp"],
+      "env": ["ZK_NOTEBOOK_DIR"]
+    }
   },
   "imports": {
     "@cliffy/command": "jsr:@cliffy/command@1.0.0-rc.8",
-    "@std/assert": "jsr:@std/assert@1"
+    "@std/assert": "jsr:@std/assert@1",
+    "@std/fs": "jsr:@std/fs@^1.0.22",
+    "@std/path": "jsr:@std/path@^1.1.4"
   }
 }
