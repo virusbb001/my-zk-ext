@@ -1,6 +1,6 @@
 import { join } from "@std/path";
 import { emptyDir, copy, walk } from "@std/fs";
-import { TestTemplates } from "./test_consts.ts";
+import { TestTemplatesPath } from "./test_consts.ts";
 
 export interface EntriesDiff {
   added: string[],
@@ -69,7 +69,7 @@ export async function syncDirectory (src: string, dest: string) {
 }
 
 if(import.meta.main) {
-  console.log(await Array.fromAsync(walk(join(TestTemplates, "notebooks"))));
+  console.log(await Array.fromAsync(walk(join(TestTemplatesPath, "notebooks"))));
 
   // const tmpDir = await Deno.makeTempDir();
   // try {

@@ -1,5 +1,5 @@
 import { syncDirectory, diffDirectory, isDiffEmpty, Permissions } from "./for_testing.ts";
-import { TestTemplates } from "./test_consts.ts";
+import { TestTemplatesPath } from "./test_consts.ts";
 import * as path from "@std/path";
 import { emptyDir } from "@std/fs";
 import { assertEquals, assert } from "@std/assert";
@@ -158,7 +158,7 @@ Deno.test({
   },
   async fn () {
     const tmpDir = await Deno.makeTempDir();
-    const notebooksTemplate = path.join(TestTemplates, "notebooks");
+    const notebooksTemplate = path.join(TestTemplatesPath, "notebooks");
     try {
       await syncDirectory(notebooksTemplate, tmpDir + "/");
       const diff = await diffDirectory(notebooksTemplate, tmpDir);

@@ -4,11 +4,11 @@ import { assertEquals } from "@std/assert";
 
 import { NotebookEnv } from "./const.ts";
 import { searchNotebooks } from "./index.ts";
-import { TestTemplates } from "./test_consts.ts";
+import { TestTemplatesPath } from "./test_consts.ts";
 
 
 async function copyTemplates (dest: string): Promise<void> {
-  await copy(TestTemplates, dest);
+  await copy(TestTemplatesPath, dest);
 }
 
 Deno.test("searchNotebooks", async t => {
