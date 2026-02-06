@@ -9,7 +9,7 @@
     "test": {
       "read": true,
       "write": ["/tmp"],
-      "env": ["ZK_NOTEBOOK_DIR"]
+      "env": ["ZK_NOTEBOOK_DIR", "TMPDIR"]
     }
   },
   "imports": {
