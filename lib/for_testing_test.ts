@@ -1,4 +1,4 @@
-import { syncDirectory, diffDirectory, isDiffEmpty } from "./for_testing.ts";
+import { syncDirectory, diffDirectory, isDiffEmpty, Permissions } from "./for_testing.ts";
 import { TestTemplates } from "./test_consts.ts";
 import * as path from "@std/path";
 import { emptyDir } from "@std/fs";
@@ -35,8 +35,7 @@ Deno.test({
 Deno.test({
   name: "diffDirectory should return empty diff",
   permissions: {
-    read: true,
-    write: [TmpDir]
+    ...Permissions
   },
   async fn () {
     await emptyDir(TmpDir);
@@ -65,8 +64,7 @@ Deno.test({
 Deno.test({
   name: "diffDirectory should return removed files",
   permissions: {
-    read: true,
-    write: [TmpDir]
+    ...Permissions
   },
   async fn () {
     await emptyDir(TmpDir);
@@ -94,8 +92,7 @@ Deno.test({
 Deno.test({
   name: "diffDirectory should return added files",
   permissions: {
-    read: true,
-    write: [TmpDir]
+    ...Permissions
   },
   async fn () {
     await emptyDir(TmpDir);
@@ -123,8 +120,7 @@ Deno.test({
 Deno.test({
   name: "diffDirectory should return edited files",
   permissions: {
-    read: true,
-    write: [TmpDir]
+    ...Permissions
   },
   async fn () {
     const tmpDir = await Deno.makeTempDir();
@@ -158,8 +154,7 @@ Deno.test({
   name: "syncDirectory",
   ignore: false,
   permissions: {
-    read: true,
-    write: [TmpDir]
+    ...Permissions
   },
   async fn () {
     const tmpDir = await Deno.makeTempDir();

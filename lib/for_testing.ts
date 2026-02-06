@@ -8,6 +8,16 @@ export interface EntriesDiff {
   edited: string[],
 }
 
+const TmpDir = Deno.env.get("TMPDIR") ?? "/tmp";
+
+/**
+ * Permission objects for testing.
+ */
+export const Permissions: Deno.PermissionOptionsObject = {
+  read: true,
+  write: [TmpDir]
+}
+
 export function isDiffEmpty (diff: EntriesDiff) {
   return (diff.added.length + diff.removed.length + diff.edited.length) === 0;
 }
