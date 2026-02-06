@@ -9,7 +9,7 @@ export const TestTemplates = Object.freeze({
   /**
    * Already set up but no tasks.
    */
-  SetUp: join(TestTemplatesPath, "setted-up"),
+  SetUp: join(TestTemplatesPath, "notebooks-setted-up"),
   /**
    * Already set up and tasks exists.
    */
