@@ -8,6 +8,11 @@
 import * as path from "@std/path";
 import { exists } from "@std/fs/exists";
 
+// Global Options
+export type GlobalOptions = {
+  notebookDir?: string;
+}
+
 const ZkDir = ".zk";
 
 /**
