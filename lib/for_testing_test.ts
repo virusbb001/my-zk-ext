@@ -1,43 +1,60 @@
-import { syncDirectory, diffDirectory, isDiffEmpty, Permissions } from "./for_testing.ts";
+import {
+  diffDirectory,
+  isDiffEmpty,
+  Permissions,
+  syncDirectory,
+} from "./for_testing.ts";
 import { TestTemplatesPath } from "./test_consts.ts";
 import * as path from "@std/path";
 import { emptyDir } from "@std/fs";
-import { assertEquals, assert } from "@std/assert";
+import { assert, assertEquals } from "@std/assert";
 
 const TmpDir = Deno.env.get("TMPDIR") ?? "/tmp";
 
 Deno.test({
   name: "isDiffEmpty",
-  fn () {
-    assert(isDiffEmpty({
-      added: [],
-      removed: [],
-      edited: []
-    }), "empty")
-    assert(!isDiffEmpty({
-      added: ["/a/1.txt"],
-      removed: [],
-      edited: []
-    }), "added")
-    assert(!isDiffEmpty({
-      added: [],
-      removed: ["/a/1.txt"],
-      edited: []
-    }), "removed")
-    assert(!isDiffEmpty({
-      added: [],
-      removed: [],
-      edited: ["/a/1.txt"]
-    }), "edited")
-  }
+  fn() {
+    assert(
+      isDiffEmpty({
+        added: [],
+        removed: [],
+        edited: [],
+      }),
+      "empty",
+    );
+    assert(
+      !isDiffEmpty({
+        added: ["/a/1.txt"],
+        removed: [],
+        edited: [],
+      }),
+      "added",
+    );
+    assert(
+      !isDiffEmpty({
+        added: [],
+        removed: ["/a/1.txt"],
+        edited: [],
+      }),
+      "removed",
+    );
+    assert(
+      !isDiffEmpty({
+        added: [],
+        removed: [],
+        edited: ["/a/1.txt"],
+      }),
+      "edited",
+    );
+  },
 });
 
 Deno.test({
   name: "diffDirectory should return empty diff",
   permissions: {
-    ...Permissions
+    ...Permissions,
   },
-  async fn () {
+  async fn() {
     await emptyDir(TmpDir);
     const oldDir = path.join(TmpDir, "old");
     await Deno.mkdir(oldDir);
@@ -58,15 +75,15 @@ Deno.test({
     assertEquals(result.added.length, 0);
     assertEquals(result.removed.length, 0);
     assertEquals(result.edited.length, 0);
-  }
+  },
 });
 
 Deno.test({
   name: "diffDirectory should return removed files",
   permissions: {
-    ...Permissions
+    ...Permissions,
   },
-  async fn () {
+  async fn() {
     await emptyDir(TmpDir);
     const oldDir = path.join(TmpDir, "old");
     await Deno.mkdir(oldDir);
@@ -86,15 +103,15 @@ Deno.test({
     assertEquals(result.added.length, 0);
     assertEquals(result.removed, ["/a/b/2.txt"]);
     assertEquals(result.edited.length, 0);
-  }
+  },
 });
 
 Deno.test({
   name: "diffDirectory should return added files",
   permissions: {
-    ...Permissions
+    ...Permissions,
   },
-  async fn () {
+  async fn() {
     await emptyDir(TmpDir);
     const oldDir = path.join(TmpDir, "old");
     await Deno.mkdir(oldDir);
@@ -114,15 +131,15 @@ Deno.test({
     assertEquals(result.added, ["/a/b/2.txt"]);
     assertEquals(result.removed.length, 0);
     assertEquals(result.edited.length, 0);
-  }
+  },
 });
 
 Deno.test({
   name: "diffDirectory should return edited files",
   permissions: {
-    ...Permissions
+    ...Permissions,
   },
-  async fn () {
+  async fn() {
     const tmpDir = await Deno.makeTempDir();
     await emptyDir(tmpDir);
     const oldDir = path.join(tmpDir, "old");
@@ -145,18 +162,17 @@ Deno.test({
     assertEquals(result.removed.length, 0);
     assertEquals(result.edited, ["/a/1.txt"]);
 
-    await Deno.remove(tmpDir, { recursive: true })
-  }
+    await Deno.remove(tmpDir, { recursive: true });
+  },
 });
-
 
 Deno.test({
   name: "syncDirectory",
   ignore: false,
   permissions: {
-    ...Permissions
+    ...Permissions,
   },
-  async fn () {
+  async fn() {
     const tmpDir = await Deno.makeTempDir();
     const notebooksTemplate = path.join(TestTemplatesPath, "notebooks");
     try {
@@ -169,5 +185,5 @@ Deno.test({
       console.log(`Remove ${tmpDir}`);
       throw e;
     }
-  }
+  },
 });

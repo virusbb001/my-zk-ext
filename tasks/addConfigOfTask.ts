@@ -13,14 +13,15 @@ export function addConfigOfTask(zkConfig: ZkConfig): ZkConfig {
   const group = zkConfig.group ?? {};
   group["task"] = group["task"] ?? {
     path: ["Projects/*"],
-    template: "tasks.md"
+    template: "tasks.md",
   };
   zkConfig.group = group;
 
   const alias = zkConfig.alias ?? {};
   alias["task"] = alias["task"] ?? `${CommandName} task "$@"`;
   /** zk task new <ProjectName> ${other arguments}*/
-  alias["task-new"] = alias["task-new"] ?? `zk new "$ZK_NOTEBOOK_DIR/Projects/$1" \${@:2}`;
+  alias["task-new"] = alias["task-new"] ??
+    `zk new "$ZK_NOTEBOOK_DIR/Projects/$1" \${@:2}`;
   zkConfig.alias = alias;
 
   return zkConfig;

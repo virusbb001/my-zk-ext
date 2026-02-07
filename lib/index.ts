@@ -11,7 +11,7 @@ import { exists } from "@std/fs/exists";
 // Global Options
 export type GlobalOptions = {
   notebookDir?: string;
-}
+};
 
 const ZkDir = ".zk";
 
@@ -22,26 +22,27 @@ const ZkDir = ".zk";
 async function lookupZk(dir: string): Promise<string | undefined> {
   const root = path.parse(dir).root;
   let current = dir;
-  while(root !== current) {
-    if (await exists(path.join(current, ZkDir), { isDirectory: true})) {
+  while (root !== current) {
+    if (await exists(path.join(current, ZkDir), { isDirectory: true })) {
       return current;
     }
     current = path.dirname(current);
-  };
+  }
   return undefined;
 }
-
 
 /**
  * search notebooks directory.
  * Mostly same of zk-org/zk `notebookSearchDirs`
  */
-export async function searchNotebooks (notebookDir?: string): Promise<string | undefined> {
-  if (notebookDir && await exists(path.join(notebookDir,ZkDir))) {
+export async function searchNotebooks(
+  notebookDir?: string,
+): Promise<string | undefined> {
+  if (notebookDir && await exists(path.join(notebookDir, ZkDir))) {
     return notebookDir;
   }
   const notebookEnvDir = Deno.env.get("ZK_NOTEBOOK_DIR");
-  if (notebookEnvDir && await exists(path.join(notebookEnvDir,ZkDir))) {
+  if (notebookEnvDir && await exists(path.join(notebookEnvDir, ZkDir))) {
     return notebookEnvDir;
   }
   return lookupZk(Deno.cwd());

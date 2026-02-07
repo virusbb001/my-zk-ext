@@ -6,15 +6,14 @@ import { CompletionsCommand } from "@cliffy/command/completions";
 import { init } from "./init.ts";
 import { command as taskCommand } from "./tasks/index.ts";
 
-function makeCommand () {
+function makeCommand() {
   const command = new Command()
-  .name("zk-ext")
-  .description("external zk command")
-  .globalOption("--notebook-dir <path>", "notebook directory. Same of zk.")
-  .command("completions", new CompletionsCommand())
-  .command("task", taskCommand)
-  .command("init", init())
-  ;
+    .name("zk-ext")
+    .description("external zk command")
+    .globalOption("--notebook-dir <path>", "notebook directory. Same of zk.")
+    .command("completions", new CompletionsCommand())
+    .command("task", taskCommand)
+    .command("init", init());
 
   return command;
 }

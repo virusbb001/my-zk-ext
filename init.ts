@@ -16,16 +16,14 @@ export async function action(notebookDir?: string) {
   const zkConfig = parse(await Deno.readTextFile(configPath)) as ZkConfig;
   const modifiedConfig = addConfigOfTask(zkConfig);
   await Deno.writeTextFile(configPath, stringify(modifiedConfig));
-
 }
 
-export function init () {
+export function init() {
   const command = new Command<GlobalOptions>()
-  .description("initialize")
-  .action(async opts => {
-    await action(opts.notebookDir);
-  })
-  ;
+    .description("initialize")
+    .action(async (opts) => {
+      await action(opts.notebookDir);
+    });
 
   return command;
 }

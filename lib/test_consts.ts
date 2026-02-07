@@ -17,5 +17,5 @@ export const TestTemplates = Object.freeze({
   /**
    * Not a zk notebook.
    */
-  NotNotebook: join(TestTemplatesPath, "not-notebook")
+  NotNotebook: join(TestTemplatesPath, "not-notebook"),
 });
