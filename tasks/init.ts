@@ -14,7 +14,7 @@ export async function init(
 ) {
   const notebooks = await searchNotebooks(notebookDir)
   if (!notebooks) {
-    throw new Error(`${notebooks} is not zk notebooks`);
+    throw new Error("Failed to find zk directory");
   }
   const src = path.join(import.meta.dirname!, "..", "templates", "tasks.md");
   const dest = path.join(notebooks, ".zk", "templates", "tasks.md");
