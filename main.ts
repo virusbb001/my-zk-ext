@@ -3,17 +3,24 @@
 import { Command } from "@cliffy/command";
 import { CompletionsCommand } from "@cliffy/command/completions";
 
+import { init } from "./init.ts";
 import { command as taskCommand } from "./tasks/index.ts";
 
-const command = new Command()
-.name("zk-ext")
-.description("external zk command")
-.globalOption("--notebook-dir <path>", "notebook directory. Same of zk.")
-.command("completions", new CompletionsCommand())
-.command("task", taskCommand)
-;
+function makeCommand () {
+  const command = new Command()
+  .name("zk-ext")
+  .description("external zk command")
+  .globalOption("--notebook-dir <path>", "notebook directory. Same of zk.")
+  .command("completions", new CompletionsCommand())
+  .command("task", taskCommand)
+  .command("init", init())
+  ;
+
+  return command;
+}
 
 async function main() {
+  const command = makeCommand();
   await command.parse(Deno.args);
 }
 
