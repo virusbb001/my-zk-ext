@@ -5,6 +5,9 @@
   },
   "permissions": {
     "default": {
+      "read": true,
+      "write": true,
+      "env": ["ZK_NOTEBOOK_DIR"]
     },
     "test": {
       "read": true,
