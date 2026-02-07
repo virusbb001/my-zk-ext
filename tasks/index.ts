@@ -1,4 +1,4 @@
-import { Command } from "jsr:@cliffy/command@1.0.0-rc.8";
+import { Command } from "@cliffy/command";
 
 import { command as initCommand } from "./init.ts";
 import { GlobalOptions } from "../lib/index.ts";
