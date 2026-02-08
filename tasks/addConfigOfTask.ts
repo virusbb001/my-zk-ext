@@ -1,5 +1,5 @@
 import { CommandName } from "../lib/const.ts";
-import { ZkConfig } from "../lib/type.ts";
+import { GroupConfiguration, ZkConfig } from "../lib/type.ts";
 
 /**
  * add subcommands of zk
@@ -11,10 +11,12 @@ import { ZkConfig } from "../lib/type.ts";
 
 export function addConfigOfTask(zkConfig: ZkConfig): ZkConfig {
   const group = zkConfig.group ?? {};
-  group["task"] = group["task"] ?? {
-    path: ["Projects/*"],
-    template: "tasks.md",
-  };
+  group["task"] = group["task"] ?? ({
+    paths: ["Projects/*"],
+    note: {
+      template: "tasks.md",
+    },
+  } satisfies GroupConfiguration);
   zkConfig.group = group;
 
   const alias = zkConfig.alias ?? {};

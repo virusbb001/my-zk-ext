@@ -7,8 +7,10 @@ Deno.test({
     const actual = addConfigOfTask({});
     assertEquals(actual.group, {
       task: {
-        path: ["Projects/*"],
-        template: "tasks.md",
+        paths: ["Projects/*"],
+        note: {
+          template: "tasks.md"
+        }
       },
     });
     // just check defined
@@ -37,15 +39,19 @@ Deno.test({
     const actual = addConfigOfTask({
       group: {
         task: {
-          path: ["MyTask/*"],
-          template: "my-tasks.md",
+          paths: ["MyTask/*"],
+          note: {
+            template: "my-tasks.md",
+          }
         },
       },
     });
     assertEquals(actual.group, {
       task: {
-        path: ["MyTask/*"],
-        template: "my-tasks.md",
+        paths: ["MyTask/*"],
+        note: {
+          template: "my-tasks.md",
+        }
       },
     });
   },

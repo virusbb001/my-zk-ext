@@ -20,9 +20,10 @@ export type ExtraUserVariables = Record<string, unknown>;
 /**
  * https://zk-org.github.io/zk/config/config-group.html
  */
-export interface GroupConfiguration extends NoteConfiguration {
-  path?: string[];
+export interface GroupConfiguration {
+  paths?: string[];
   extra?: ExtraUserVariables;
+  note?: NoteConfiguration;
 }
 
 /**
