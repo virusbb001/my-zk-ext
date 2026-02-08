@@ -5,6 +5,7 @@ import { CompletionsCommand } from "@cliffy/command/completions";
 
 import { init } from "./init.ts";
 import { command as taskCommand } from "./tasks/index.ts";
+import { projects } from "./projects/index.ts";
 
 function makeCommand() {
   const command = new Command()
@@ -13,6 +14,7 @@ function makeCommand() {
     .globalOption("--notebook-dir <path>", "notebook directory. Same of zk.")
     .command("completions", new CompletionsCommand())
     .command("task", taskCommand)
+    .command("project", projects())
     .command("init", init());
 
   return command;
