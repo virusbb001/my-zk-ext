@@ -12,6 +12,9 @@ function makeCommand() {
     .name("zk-ext")
     .description("external zk command")
     .globalOption("--notebook-dir <path>", "notebook directory. Same of zk.")
+    .action(function () {
+      this.showHelp();
+    })
     .command("completions", new CompletionsCommand())
     .command("task", taskCommand)
     .command("project", projects())

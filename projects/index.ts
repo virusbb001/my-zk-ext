@@ -5,5 +5,8 @@ import { newCommand } from "./new.ts";
 export function projects() {
   return new Command<GlobalOptions>()
     .description("projects management")
+    .action(function () {
+      this.showHelp();
+    })
     .command("new", newCommand());
 }
