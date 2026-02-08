@@ -3,8 +3,6 @@ import { GlobalOptions } from "../lib/index.ts";
 
 export const command = new Command<GlobalOptions>()
   .description("task management")
-.action(function() {
-  this.showHelp();
-});
-
-
+  .action(function () {
+    this.showHelp();
+  });

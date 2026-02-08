@@ -1,6 +1,6 @@
 import { Command } from "@cliffy/command";
 import { GlobalOptions, searchNotebooks } from "../lib/index.ts";
-import { Zk, ProjectsDir } from "../lib/const.ts";
+import { ProjectsDir, Zk } from "../lib/const.ts";
 
 export function newCommand() {
   return new Command<GlobalOptions>()
@@ -36,8 +36,8 @@ export async function actions(
       ProjectsDir,
       "--title",
       project,
-      ...args
-    ]
+      ...args,
+    ],
   });
   const process = command.spawn();
   const status = await process.status;

@@ -9,8 +9,8 @@ Deno.test({
       task: {
         paths: ["Projects/*"],
         note: {
-          template: "tasks.md"
-        }
+          template: "tasks.md",
+        },
       },
     });
     // just check defined
@@ -42,7 +42,7 @@ Deno.test({
           paths: ["MyTask/*"],
           note: {
             template: "my-tasks.md",
-          }
+          },
         },
       },
     });
@@ -51,7 +51,7 @@ Deno.test({
         paths: ["MyTask/*"],
         note: {
           template: "my-tasks.md",
-        }
+        },
       },
     });
   },
