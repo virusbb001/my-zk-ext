@@ -21,5 +21,8 @@
     "@std/fs": "jsr:@std/fs@^1.0.22",
     "@std/path": "jsr:@std/path@^1.1.4",
     "@std/toml": "jsr:@std/toml@^1.0.11"
+  },
+  "fmt": {
+    "exclude": ["templates"]
   }
 }
