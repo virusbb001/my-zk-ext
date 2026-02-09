@@ -1,8 +1,12 @@
 import { Command } from "@cliffy/command";
 import { GlobalOptions } from "../lib/index.ts";
+import { newCommand } from "./new.ts";
 
-export const command = new Command<GlobalOptions>()
-  .description("task management")
-  .action(function () {
-    this.showHelp();
-  });
+export function task () {
+  return new Command<GlobalOptions>()
+      .description("task management")
+      .action(function () {
+        this.showHelp();
+      })
+      .command("new", newCommand());
+}

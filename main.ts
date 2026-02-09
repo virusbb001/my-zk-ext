@@ -4,7 +4,7 @@ import { Command } from "@cliffy/command";
 import { CompletionsCommand } from "@cliffy/command/completions";
 
 import { init } from "./init.ts";
-import { command as taskCommand } from "./tasks/index.ts";
+import { task } from "./tasks/index.ts";
 import { projects } from "./projects/index.ts";
 
 function makeCommand() {
@@ -16,7 +16,7 @@ function makeCommand() {
       this.showHelp();
     })
     .command("completions", new CompletionsCommand())
-    .command("task", taskCommand)
+    .command("task", task())
     .command("project", projects())
     .command("init", init());
 
