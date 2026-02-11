@@ -20,7 +20,7 @@ Example: ${CommandName} project list --zk -- --format=json
       const projects = files.map((file) => path.basename(file, ".md"));
       if (opts.zk) {
         // TODO: emulate 0 files
-        await zkList(files,zkOpts);
+        await zkList(files, zkOpts);
       } else {
         console.log(projects.join("\n"));
       }

@@ -11,7 +11,7 @@ import { zkList } from "../lib/zk.ts";
 // deno-lint-ignore no-explicit-any
 type Note = any;
 
-export function list () {
+export function list() {
   return new Command<GlobalOptions>()
     .type("status", new StatusType())
     .description(`list tasks.
@@ -20,9 +20,12 @@ You can pass zk options after \`--\`.
 
 Example: ${CommandName} task list --zk -- --format=json
 `)
-    .option("--project <projects:string[]>", "projects for filtering ex: proj-1,proj-2")
+    .option(
+      "--project <projects:string[]>",
+      "projects for filtering ex: proj-1,proj-2",
+    )
     .option("--status <status:status[]>", "status")
-    .action(async function(opts) {
+    .action(async function (opts) {
       const zkArgs = this.getLiteralArgs();
       await listTasks(opts.notebookDir, opts.project, opts.status, zkArgs);
     });
@@ -30,24 +33,24 @@ Example: ${CommandName} task list --zk -- --format=json
 
 /**
  * @param taskStatus - status for filtering
-  */
-async function listTasks (
+ */
+async function listTasks(
   notebookDir: string | undefined,
   projects: string[] = [],
   taskStatus: string[] = [],
-  zkArgs: string[] = []
+  zkArgs: string[] = [],
 ): Promise<void> {
   const projectFiles = await getProjects(notebookDir);
-  const projectDirs = projects.map(p => path.join(ProjectsDir, p));
+  const projectDirs = projects.map((p) => path.join(ProjectsDir, p));
 
   if (taskStatus.length > 0) {
     const notes = await getTasksByStatus(
       taskStatus,
       projectDirs,
-      projectFiles
+      projectFiles,
     );
-    const notePaths = notes.map(note => note.absPath);
-    await zkList(notePaths, zkArgs)
+    const notePaths = notes.map((note) => note.absPath);
+    await zkList(notePaths, zkArgs);
     return;
   }
 
@@ -57,8 +60,8 @@ async function listTasks (
       "--exclude",
       projectFiles.join(","),
       ...zkArgs,
-      ...projectDirs
-    ]
+      ...projectDirs,
+    ],
   });
   const process = command.spawn();
   const status = await process.status;
@@ -76,16 +79,18 @@ async function getTasksByStatus(
       "--exclude",
       projectFiles.join(","),
       "--format=json",
-      ...projectDirs
-    ]
+      ...projectDirs,
+    ],
   });
   const result = await command.output();
   if (!result.success) {
-    await Deno.stderr.write(result.stderr)
+    await Deno.stderr.write(result.stderr);
     Deno.exitCode = result.code;
     throw new Error(`Zk failed with ${result.code}`);
   }
   const notes = JSON.parse(new TextDecoder().decode(result.stdout)) as Note[];
-  const filtered = notes.filter(note => taskStatus.includes(note.metadata.status));
+  const filtered = notes.filter((note) =>
+    taskStatus.includes(note.metadata.status)
+  );
   return filtered;
 }
