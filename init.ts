@@ -26,7 +26,7 @@ export async function action(notebookDir?: string) {
   const modifiedConfig = applyConfigs(zkConfig);
   await Deno.writeTextFile(configPath, stringify(modifiedConfig));
 
-  await Deno.mkdir(path.join("Projects"), { recursive: true });
+  await Deno.mkdir(path.join(notebooks, "Projects"), { recursive: true });
 }
 
 export function init() {
