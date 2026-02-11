@@ -1,7 +1,8 @@
 import { Command } from "@cliffy/command";
 import { GlobalOptions, searchNotebooks } from "../lib/index.ts";
 import * as path from "@std/path";
-import { CommandName, ProjectsDir, Zk } from "../lib/const.ts";
+import { CommandName, ProjectsDir } from "../lib/const.ts";
+import { zkList } from "../lib/zk.ts";
 
 export function list() {
   return new Command<GlobalOptions>()
@@ -18,18 +19,17 @@ Example: ${CommandName} project list --zk -- --format=json
       const files = await getProjects(opts.notebookDir);
       const projects = files.map((file) => path.basename(file, ".md"));
       if (opts.zk) {
-        const cmd = new Deno.Command(Zk, {
-          args: ["list", ...zkOpts, ...files],
-        });
-        const process = cmd.spawn();
-        const status = await process.status;
-        Deno.exitCode = status.code;
+        // TODO: emulate 0 files
+        await zkList(files,zkOpts);
       } else {
         console.log(projects.join("\n"));
       }
     });
 }
 
+/**
+ * return project files.
+ */
 export async function getProjects(notebooks?: string): Promise<string[]> {
   const notebookDir = await searchNotebooks(notebooks);
   if (!notebookDir) {

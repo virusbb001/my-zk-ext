@@ -1,9 +1,10 @@
 import { Command } from "@cliffy/command";
 import { GlobalOptions } from "../lib/index.ts";
-import { CommandName, EmulateZeroNote, ProjectsDir, Zk } from "../lib/const.ts";
+import { CommandName, ProjectsDir, Zk } from "../lib/const.ts";
 import { getProjects } from "../projects/list.ts";
 import * as path from "@std/path";
 import { StatusType } from "./StatusType.ts";
+import { zkList } from "../lib/zk.ts";
 /**
  * Note of zk
  */
@@ -46,16 +47,7 @@ async function listTasks (
       projectFiles
     );
     const notePaths = notes.map(note => note.absPath);
-    const command = new Deno.Command(Zk, {
-      args: [
-        "list",
-        ...zkArgs,
-        ...(notePaths.length > 0 ? notePaths : EmulateZeroNote)
-      ]
-    });
-    const process = command.spawn();
-    const status = await process.status;
-    Deno.exitCode = status.code;
+    await zkList(notePaths, zkArgs)
     return;
   }
 
