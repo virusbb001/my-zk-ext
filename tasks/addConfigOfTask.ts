@@ -21,9 +21,6 @@ export function addConfigOfTask(zkConfig: ZkConfig): ZkConfig {
 
   const alias = zkConfig.alias ?? {};
   alias["task"] = alias["task"] ?? `${CommandName} task "$@"`;
-  /** zk task new <ProjectName> ${other arguments}*/
-  alias["task-new"] = alias["task-new"] ??
-    `zk new "$ZK_NOTEBOOK_DIR/Projects/$1" \${@:2}`;
   zkConfig.alias = alias;
 
   return zkConfig;

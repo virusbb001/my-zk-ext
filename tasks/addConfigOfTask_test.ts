@@ -15,7 +15,6 @@ Deno.test({
     });
     // just check defined
     assert(actual.alias?.task);
-    assert(actual.alias["task-new"]);
   },
 });
 
