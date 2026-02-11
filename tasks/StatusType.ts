@@ -6,7 +6,7 @@ import { ArgumentValue, Type } from "@cliffy/command";
 export class StatusType extends Type<string> {
   private readonly status = ["not-started", "doing", "pending", "complete"];
 
-  override complete (): Array<string> {
+  override values (): Array<string> {
     return this.status;
   }
 
