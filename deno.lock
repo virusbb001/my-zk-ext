@@ -13,7 +13,8 @@
     "jsr:@std/internal@^1.0.12": "1.0.12",
     "jsr:@std/path@^1.1.4": "1.1.4",
     "jsr:@std/text@~1.0.7": "1.0.17",
-    "jsr:@std/toml@^1.0.11": "1.0.11"
+    "jsr:@std/toml@^1.0.11": "1.0.11",
+    "jsr:@std/yaml@^1.0.11": "1.0.11"
   },
   "jsr": {
     "@cliffy/command@1.0.0-rc.8": {
@@ -80,9 +81,13 @@
       "dependencies": [
         "jsr:@std/collections"
       ]
+    },
+    "@std/yaml@1.0.11": {
+      "integrity": "bd139ce77f2d06cbed3713c8b26d301d2a2e12ecc7986130a268107e212143ee"
     }
   },
   "redirects": {
+    "https://esm.sh/@types/extend@~3.0.4/index.d.ts": "https://esm.sh/@types/extend@3.0.4/index.d.ts",
     "https://esm.sh/bail@^2.0.0?target=denonext": "https://esm.sh/bail@2.0.2?target=denonext",
     "https://esm.sh/character-entities@^2.0.0?target=denonext": "https://esm.sh/character-entities@2.0.2?target=denonext",
     "https://esm.sh/decode-named-character-reference@^1.0.0?target=denonext": "https://esm.sh/decode-named-character-reference@1.3.0?target=denonext",
@@ -241,7 +246,8 @@
       "jsr:@std/assert@1",
       "jsr:@std/fs@^1.0.22",
       "jsr:@std/path@^1.1.4",
-      "jsr:@std/toml@^1.0.11"
+      "jsr:@std/toml@^1.0.11",
+      "jsr:@std/yaml@^1.0.11"
     ]
   }
 }
