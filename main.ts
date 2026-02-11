@@ -6,10 +6,11 @@ import { CompletionsCommand } from "@cliffy/command/completions";
 import { init } from "./init.ts";
 import { task } from "./tasks/index.ts";
 import { projects } from "./projects/index.ts";
+import { CommandName } from "./lib/const.ts";
 
 function makeCommand() {
   const command = new Command()
-    .name("zk-ext")
+    .name(CommandName)
     .description("external zk command")
     .globalOption("--notebook-dir <path>", "notebook directory. Same of zk.")
     .action(function () {
