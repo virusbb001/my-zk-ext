@@ -54,18 +54,7 @@ async function listTasks(
     return;
   }
 
-  const command = new Deno.Command(Zk, {
-    args: [
-      "list",
-      "--exclude",
-      projectFiles.join(","),
-      ...zkArgs,
-      ...projectDirs,
-    ],
-  });
-  const process = command.spawn();
-  const status = await process.status;
-  Deno.exitCode = status.code;
+  await zkList(projectDirs, ["--exclude",projectFiles.join(","), ...zkArgs]);
 }
 
 async function getTasksByStatus(
