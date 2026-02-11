@@ -138,6 +138,7 @@
     "https://esm.sh/zwitch@^2.0.0?target=denonext": "https://esm.sh/zwitch@2.0.4?target=denonext"
   },
   "remote": {
+    "https://esm.sh/@types/mdast@4.0.4/index.js": "fabf6997a3adf11e45d11e3c4d58d0634ab98f9d72f3116f3694123818ccd457",
     "https://esm.sh/bail@2.0.2/denonext/bail.mjs": "384030255809f49c4056a4876ee94a177253d8f3d77d2f150f097c5ce91f8ec6",
     "https://esm.sh/bail@2.0.2?target=denonext": "4bb045b2ef8bed208c284fdab79fb7b5ae39160febd1c8b35c68d00e858db19b",
     "https://esm.sh/character-entities@2.0.2/denonext/character-entities.mjs": "d15396c2d78022cb26a289c75ee1fb7aaa556334bb24ff7b1ca3634a2770c4ef",

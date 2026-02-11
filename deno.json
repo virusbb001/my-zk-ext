@@ -22,7 +22,9 @@
     "@std/path": "jsr:@std/path@^1.1.4",
     "@std/toml": "jsr:@std/toml@^1.0.11",
     "@std/yaml": "jsr:@std/yaml@^1.0.11",
-    "remark": "https://esm.sh/remark@15"
+    "remark": "https://esm.sh/remark@15",
+    "remark-frontmatter": "https://esm.sh/remark-frontmatter@5",
+    "mdast": "https://esm.sh/@types/mdast@4.0.4/index.js"
   },
   "fmt": {
     "exclude": ["templates"]
