@@ -36,7 +36,7 @@ export async function createNewTask(
   if (!notebook) {
     throw new Error("notebook not found");
   }
-  const projectsDir = path.join(ProjectsDir, project);
+  const projectsDir = path.join(notebook, ProjectsDir, project);
   const absoluteProjectDir = path.join(notebook, projectsDir);
 
   await Deno.mkdir(absoluteProjectDir, { recursive: true });
