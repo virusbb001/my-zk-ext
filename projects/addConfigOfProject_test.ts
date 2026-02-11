@@ -2,13 +2,14 @@ import { addConfigOfProject } from "./addConfigOfProject.ts";
 import { assert, assertEquals } from "@std/assert";
 
 Deno.test({
-  name: "addConfigOfProject add extranal props",
+  name: "addConfigOfProject add external props",
   fn() {
     const actual = addConfigOfProject({});
     assertEquals(actual.group, {
       project: {
         paths: ["Projects"],
         note: {
+          filename: "{{slug title}}",
           template: "tasks.md",
         },
       },
@@ -49,6 +50,7 @@ Deno.test({
         paths: ["MyTask"],
         note: {
           template: "my-tasks.md",
+          filename: "{{ slug title }}",
         },
       },
     });
