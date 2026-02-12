@@ -28,6 +28,6 @@
     "mdast": "https://esm.sh/@types/mdast@4.0.4/index.js"
   },
   "fmt": {
-    "exclude": ["templates"]
+    "exclude": ["templates", "test"]
   }
 }
