@@ -8,7 +8,7 @@ import { ProjectsDir } from "../lib/const.ts";
 
 const permissions = {
   ...Permissions,
-  run: ["zk"]
+  run: ["zk"],
 };
 
 Deno.test({
