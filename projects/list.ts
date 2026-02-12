@@ -28,7 +28,7 @@ Example: ${CommandName} project list --zk -- --format=json
 }
 
 /**
- * return project files.
+ * return absolute paths of project files.
  */
 export async function getProjects(notebooks?: string): Promise<string[]> {
   const notebookDir = await searchNotebooks(notebooks);
