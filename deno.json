@@ -12,7 +12,8 @@
     "test": {
       "read": true,
       "write": ["/tmp"],
-      "env": ["ZK_NOTEBOOK_DIR", "TMPDIR"]
+      "env": ["ZK_NOTEBOOK_DIR", "TMPDIR"],
+      "run": ["zk"]
     }
   },
   "imports": {
