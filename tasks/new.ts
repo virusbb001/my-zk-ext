@@ -18,7 +18,11 @@ Example: ${CommandName} task new --project my-project -- --format=json
     .arguments("[title]")
     .action(async function (opts, title) {
       const zkOpts = this.getLiteralArgs();
-      const code = await createNewTask(opts.notebookDir, opts.project, title, zkOpts);
+      const notebook = await searchNotebooks(opts.notebookDir);
+      if (!notebook) {
+        throw new Error("notebook not found");
+      }
+      const code = await createNewTask(notebook, opts.project, title, zkOpts);
       Deno.exitCode = code;
     });
 }
@@ -28,15 +32,11 @@ Example: ${CommandName} task new --project my-project -- --format=json
  * @param [zkOpts=[]] - options of zk.
  */
 export async function createNewTask(
-  notebookDir: string | undefined,
+  notebook: string,
   project: string,
   title?: string,
   zkOpts: string[] = [],
 ) {
-  const notebook = await searchNotebooks(notebookDir);
-  if (!notebook) {
-    throw new Error("notebook not found");
-  }
   const projectsDir = path.join(ProjectsDir, project);
   const absoluteProjectDir = path.join(notebook, projectsDir);
 
