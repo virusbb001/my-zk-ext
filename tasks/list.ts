@@ -1,5 +1,5 @@
 import { Command } from "@cliffy/command";
-import { GlobalOptions } from "../lib/index.ts";
+import { GlobalOptions, searchNotebooks } from "../lib/index.ts";
 import { CommandName, ProjectsDir, Zk } from "../lib/const.ts";
 import { getProjects } from "../projects/list.ts";
 import * as path from "@std/path";
@@ -27,7 +27,13 @@ Example: ${CommandName} task list --zk -- --format=json
     .option("--status <status:status[]>", "status")
     .action(async function (opts) {
       const zkArgs = this.getLiteralArgs();
-      await listTasks(opts.notebookDir, opts.project, opts.status, zkArgs);
+
+      const notebookDir = await searchNotebooks(opts.notebookDir);
+      if (!notebookDir) {
+        throw new Error("Notebooks not found");
+      }
+
+      await listTasks(notebookDir, opts.project, opts.status, zkArgs);
     });
 }
 
@@ -35,18 +41,22 @@ Example: ${CommandName} task list --zk -- --format=json
  * @param taskStatus - status for filtering
  */
 async function listTasks(
-  notebookDir: string | undefined,
+  notebookDir: string,
   projects: string[] = [],
   taskStatus: string[] = [],
   zkArgs: string[] = [],
 ): Promise<void> {
   const projectFiles = await getProjects(notebookDir);
-  const projectDirs = projects.map((p) => path.join(ProjectsDir, p));
+  const allProjectDirs = projectFiles.map((p) => p.replace(/\.md$/, ""));
+  const projectsDir = projects.map((p) =>
+    path.join(notebookDir!, ProjectsDir, p)
+  );
+  const dirs = projectsDir.length > 0 ? projectsDir : allProjectDirs;
 
   if (taskStatus.length > 0) {
     const notes = await getTasksByStatus(
       taskStatus,
-      projectDirs,
+      dirs,
       projectFiles,
     );
     const notePaths = notes.map((note) => note.absPath);
@@ -54,7 +64,7 @@ async function listTasks(
     return;
   }
 
-  await zkList(projectDirs, ["--exclude",projectFiles.join(","), ...zkArgs]);
+  await zkList(dirs, ["--exclude", projectFiles.join(","), ...zkArgs]);
 }
 
 async function getTasksByStatus(
