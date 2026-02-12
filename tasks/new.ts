@@ -18,7 +18,8 @@ Example: ${CommandName} task new --project my-project -- --format=json
     .arguments("[title]")
     .action(async function (opts, title) {
       const zkOpts = this.getLiteralArgs();
-      await createNewTask(opts.notebookDir, opts.project, title, zkOpts);
+      const code = await createNewTask(opts.notebookDir, opts.project, title, zkOpts);
+      Deno.exitCode = code;
     });
 }
 
@@ -36,13 +37,15 @@ export async function createNewTask(
   if (!notebook) {
     throw new Error("notebook not found");
   }
-  const projectsDir = path.join(notebook, ProjectsDir, project);
+  const projectsDir = path.join(ProjectsDir, project);
   const absoluteProjectDir = path.join(notebook, projectsDir);
 
   await Deno.mkdir(absoluteProjectDir, { recursive: true });
 
   const command = new Deno.Command(Zk, {
     args: [
+      "--notebook-dir",
+      notebook,
       "new",
       absoluteProjectDir,
       ...(title ? ["--title", title] : []),
@@ -51,5 +54,5 @@ export async function createNewTask(
   });
   const process = command.spawn();
   const status = await process.status;
-  Deno.exitCode = status.code;
+  return status.code;
 }
