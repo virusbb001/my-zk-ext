@@ -6,6 +6,7 @@ import { CompletionsCommand } from "@cliffy/command/completions";
 import { init } from "./init.ts";
 import { task } from "./tasks/index.ts";
 import { projects } from "./projects/index.ts";
+import { daily } from "./daily/index.ts";
 import { CommandName } from "./lib/const.ts";
 
 function makeCommand() {
@@ -17,6 +18,7 @@ function makeCommand() {
       this.showHelp();
     })
     .command("completions", new CompletionsCommand())
+    .command("daily", daily())
     .command("task", task())
     .command("project", projects())
     .command("init", init());

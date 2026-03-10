@@ -1,6 +1,7 @@
 import { Command } from "@cliffy/command";
 import { addConfigOfTask } from "./tasks/addConfigOfTask.ts";
 import { addConfigOfProject } from "./projects/addConfigOfProject.ts";
+import { addConfig as daily } from "./daily/addConfig.ts";
 import { addTemplate } from "./tasks/addTemplate.ts";
 import { GlobalOptions, searchNotebooks } from "./lib/index.ts";
 import * as path from "@std/path";
@@ -11,6 +12,7 @@ import { parse, stringify } from "@std/toml";
 function applyConfigs(config: ZkConfig): ZkConfig {
   let cfg = addConfigOfTask(config);
   cfg = addConfigOfProject(cfg);
+  cfg = daily(cfg);
   return cfg;
 }
 
