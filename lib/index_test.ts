@@ -18,43 +18,45 @@ Deno.test("searchNotebooks", async (t) => {
   const notebookPath = path.join(templatePath, "notebooks");
   const wrongPath = path.join(templatePath, "not-notebook");
   const hasSomeTasks = path.join(templatePath, "has-some-tasks");
-  await t.step({
+
+  let ok = true;
+  ok = await t.step({
     name: "options correct path",
     async fn() {
       Deno.env.delete(NotebookEnv);
       const notebook = await searchNotebooks(notebookPath);
       assertEquals(notebook, notebookPath);
     },
-  });
+  }) && ok;
 
-  await t.step({
+  ok = await t.step({
     name: "options wrong path",
     async fn() {
       Deno.env.delete(NotebookEnv);
       const notebook = await searchNotebooks(wrongPath);
       assertEquals(notebook, undefined);
     },
-  });
+  }) && ok;
 
-  await t.step({
+  ok = await t.step({
     name: "ENV correct ZK",
     async fn() {
       Deno.env.set(NotebookEnv, notebookPath);
       const notebook = await searchNotebooks();
       assertEquals(notebook, notebookPath);
     },
-  });
+  }) && ok;
 
-  await t.step({
+  ok = await t.step({
     name: "ENV wrong ZK",
     async fn() {
       Deno.env.set(NotebookEnv, wrongPath);
       const notebook = await searchNotebooks();
       assertEquals(notebook, undefined);
     },
-  });
+  }) && ok;
 
-  await t.step({
+  ok = await t.step({
     name: "PWD correct ZK",
     async fn() {
       Deno.env.delete(NotebookEnv);
@@ -62,9 +64,9 @@ Deno.test("searchNotebooks", async (t) => {
       const notebook = await searchNotebooks();
       assertEquals(notebook, notebookPath);
     },
-  });
+  }) && ok;
 
-  await t.step({
+  ok = await t.step({
     name: "PWD descendants of correct  ZK",
     async fn() {
       Deno.env.delete(NotebookEnv);
@@ -72,7 +74,11 @@ Deno.test("searchNotebooks", async (t) => {
       const notebook = await searchNotebooks();
       assertEquals(notebook, hasSomeTasks);
     },
-  });
+  }) && ok;
+
   Deno.chdir(oldCwd);
-  await Deno.remove(tmpDir, { recursive: true });
+  console.log(tmpDir);
+  if (ok) {
+    await Deno.remove(tmpDir, { recursive: true });
+  }
 });
