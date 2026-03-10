@@ -11,6 +11,7 @@ async function copyTemplates(dest: string): Promise<void> {
 }
 
 Deno.test("searchNotebooks", async (t) => {
+  const oldCwd = Deno.cwd();
   const tmpDir = await Deno.makeTempDir();
   const templatePath = path.join(tmpDir, "templates");
   await copyTemplates(templatePath);
@@ -72,5 +73,6 @@ Deno.test("searchNotebooks", async (t) => {
       assertEquals(notebook, hasSomeTasks);
     },
   });
+  Deno.chdir(oldCwd);
   await Deno.remove(tmpDir, { recursive: true });
 });
