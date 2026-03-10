@@ -67,7 +67,7 @@ Deno.test("searchNotebooks", async (t) => {
     name: "PWD descendants of correct  ZK",
     async fn() {
       Deno.env.delete(NotebookEnv);
-      Deno.chdir(path.join(hasSomeTasks, "Tasks"));
+      Deno.chdir(path.join(hasSomeTasks, "Projects"));
       const notebook = await searchNotebooks();
       assertEquals(notebook, hasSomeTasks);
     },
