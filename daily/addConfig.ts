@@ -15,7 +15,7 @@ export function addConfig(zkConfig: ZkConfig): ZkConfig {
 
   const alias = zkConfig.alias ?? {};
   alias["daily"] = alias["daily"] ?? `${CommandName} daily "$@"`;
-  alias["daily-new"] = alias["daily-new"] ?? `${CommandName} zk new -- --no-input \"$ZK_NOTEBOOK_DIR/Daily\" "$@"`
+  alias["daily-new"] = alias["daily-new"] ?? `zk new --no-input \"$ZK_NOTEBOOK_DIR/Daily\" "$@"`
   zkConfig.alias = alias;
 
   return zkConfig;
