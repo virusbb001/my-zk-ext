@@ -33,13 +33,6 @@ async function listNotes(
   notebookDir: string,
   zkArgs: string[] = [],
 ): Promise<void> {
-  console.log([
-      "--notebook-dir",
-      notebookDir,
-      "list",
-      DailyDir,
-      ...zkArgs,
-    ]);
   const command = new Deno.Command(Zk, {
     args: [
       "--notebook-dir",
