@@ -2,7 +2,7 @@ import { Command } from "@cliffy/command";
 import { addConfigOfTask } from "./tasks/addConfigOfTask.ts";
 import { addConfigOfProject } from "./projects/addConfigOfProject.ts";
 import { addConfig as daily } from "./daily/addConfig.ts";
-import { addTemplate } from "./tasks/addTemplate.ts";
+import { addTemplate } from "./lib/init.ts";
 import { GlobalOptions, searchNotebooks } from "./lib/index.ts";
 import * as path from "@std/path";
 import { ZkConfig } from "./lib/type.ts";
@@ -21,7 +21,8 @@ export async function action(notebookDir?: string) {
   if (!notebooks) {
     throw new Error("Failed to find zk directory");
   }
-  await addTemplate(notebooks);
+  await addTemplate(notebooks, "tasks.md");
+  await addTemplate(notebooks, "daily.md");
 
   const configPath = path.join(notebooks, ".zk", "config.toml");
   const zkConfig = parse(await Deno.readTextFile(configPath)) as ZkConfig;
