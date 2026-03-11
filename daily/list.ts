@@ -1,6 +1,7 @@
 import { Command } from "@cliffy/command";
 import { GlobalOptions, searchNotebooks } from "../lib/index.ts";
 import { CommandName, DailyDir, Zk } from "../lib/const.ts";
+import { join } from "@std/path/join";
 /**
  * Note of zk
  */
@@ -11,7 +12,7 @@ export function list() {
 
 You can pass zk options after \`--\`.
 
-Example: ${CommandName} task list --zk -- --format=json
+Example: ${CommandName} daily list --zk -- --format=json
 `)
     .action(async function (opts) {
       const zkArgs = this.getLiteralArgs();
@@ -32,12 +33,19 @@ async function listNotes(
   notebookDir: string,
   zkArgs: string[] = [],
 ): Promise<void> {
+  console.log([
+      "--notebook-dir",
+      notebookDir,
+      "list",
+      DailyDir,
+      ...zkArgs,
+    ]);
   const command = new Deno.Command(Zk, {
     args: [
       "--notebook-dir",
       notebookDir,
       "list",
-      DailyDir,
+      join(notebookDir, DailyDir),
       ...zkArgs,
     ],
   });
