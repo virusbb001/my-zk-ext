@@ -1,7 +1,7 @@
 import { assertEquals } from "@std/assert";
 import { unified } from "unified";
 import remarkParse from "remark-parse";
-import { Hashtag, remarkZk, WikiLink } from "./split.ts";
+import { Hashtag, num2chr, remarkZk, WikiLink } from "./split.ts";
 import { Root, Text } from "mdast";
 
 Deno.test("remarkZk - should parse hashtags and wikilinks", async () => {
@@ -113,4 +113,13 @@ Deno.test("remarkZk - edge cases: should not parse tags inside code blocks", asy
   const codeBlock = ast.children[1];
   assertEquals(codeBlock.type, "code");
   // code ノードも同様に remarkZk は触らない
+});
+
+Deno.test("num2str", () => {
+  assertEquals(num2chr(0), "0");
+  assertEquals(num2chr(9), "9");
+  assertEquals(num2chr(10), "A");
+  assertEquals(num2chr(35), "Z");
+  assertEquals(num2chr(36), "a");
+  assertEquals(num2chr(61), "z");
 });
