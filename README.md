@@ -16,6 +16,14 @@ Run, `my-zk-ext init` in zk notebooks. This will add templates, groups and
 aliases. Aliases are `zk project` and `zk task`. Read ./docs/task-workflow.md to
 manage task with this.
 
+## Development
+
+### Setup
+
+```
+git config core.hooksPath .git_hooks
+```
+
 [^1]: https://github.com/zk-org/zk/discussions/252
 
 [^2]: I know I don't need to.
