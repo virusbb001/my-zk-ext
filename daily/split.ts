@@ -5,7 +5,7 @@ import { join } from "@std/path";
 import { expandGlob } from "@std/fs";
 import { Plugin, unified } from "unified";
 import remarkParse from "remark-parse";
-import { Literal, Node, PhrasingContent, Root, RootContent } from "mdast";
+import { Literal, PhrasingContent, Root, RootContent } from "mdast";
 import remarkStringify from "remark-stringify";
 import { u } from "unist-builder";
 import { visit } from "unist-util-visit";
@@ -49,13 +49,6 @@ async function action(date: string, notebookDir?: string) {
 
   const content = await Deno.readTextFile(paths[0]);
   const [newDailyNote, newCards] = await splitNote(content);
-
-  const stringifier = unified().use(remarkStringify, {
-    handlers: {
-      "zk-hashtag": (node: Hashtag) => node.value,
-      "zk-wikilink": (node: WikiLink) => node.value,
-    },
-  });
 
   const alreadyCreatedNames =
     (await Array.fromAsync(Deno.readDir(dailyDir)).catch((e) => {
@@ -242,7 +235,7 @@ export async function writeFiles(
     },
   });
 
-  let lastDotIndex = filePath.lastIndexOf(".");
+  const lastDotIndex = filePath.lastIndexOf(".");
   const baseDir = lastDotIndex !== -1
     ? filePath.substring(0, lastDotIndex)
     : filePath;

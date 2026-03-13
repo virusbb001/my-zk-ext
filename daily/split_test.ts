@@ -2,7 +2,7 @@ import { assertEquals } from "@std/assert";
 import { unified } from "unified";
 import remarkParse from "remark-parse";
 import { Hashtag, num2chr, remarkZk, WikiLink } from "./split.ts";
-import { Root, Text } from "mdast";
+import { Paragraph, Root, Text } from "mdast";
 
 Deno.test("remarkZk - should parse hashtags and wikilinks", async () => {
   const processor = unified().use(remarkParse).use(remarkZk);
@@ -122,4 +122,85 @@ Deno.test("num2str", () => {
   assertEquals(num2chr(35), "Z");
   assertEquals(num2chr(36), "a");
   assertEquals(num2chr(61), "z");
+});
+
+Deno.test("splitNote - should split note by thematic breaks", async () => {
+  const content = `Title
+First section.
+
+---
+
+Second section with #tag.
+
+---
+
+Third section with [[link]].`;
+
+  const [dailyNote, cards] = await import("./split.ts").then((m) =>
+    m.splitNote(content)
+  );
+
+  // First section should be in dailyNote
+  assertEquals(dailyNote.children.length, 1);
+  assertEquals(dailyNote.children[0].type, "paragraph");
+
+  // Other sections should be in cards
+  assertEquals(cards.length, 2);
+  assertEquals(cards[0].children[0].type, "paragraph");
+  assertEquals(cards[1].children[0].type, "paragraph");
+});
+
+Deno.test("nameGenerator - should generate string of specified length", async () => {
+  const { nameGenerator } = await import("./split.ts");
+  const name4 = nameGenerator(4);
+  assertEquals(name4.length, 4);
+  const name8 = nameGenerator(8);
+  assertEquals(name8.length, 8);
+
+  // Check if it only contains valid characters [0-9A-Za-z]
+  const validChars = /^[0-9A-Za-z]+$/;
+  assertEquals(validChars.test(name4), true);
+  assertEquals(validChars.test(name8), true);
+});
+
+Deno.test("setCardNames - should add links to root and return map", async () => {
+  const { setCardNames, splitNote } = await import("./split.ts");
+  const content = `Root
+
+---
+
+Card 1
+
+---
+
+Card 2`;
+  const [root, cards] = await splitNote(content);
+
+  const dailyDir = "Daily/2026-03-13";
+  const usedNames: string[] = ["used"];
+
+  const cardMap = setCardNames(root, cards, dailyDir, usedNames);
+
+  // cardMap check
+  assertEquals(cardMap.size, 2);
+  for (const name of cardMap.keys()) {
+    assertEquals(name.length, 4);
+    assertEquals(name !== "used", true);
+  }
+
+  // root check (should have a new paragraph with links)
+  // Original root had 1 paragraph. setCardNames adds 1 paragraph.
+  assertEquals(root.children.length, 2);
+  const lastChild = root.children[1];
+  assertEquals(lastChild.type, "paragraph");
+
+  // The added paragraph should contain zk-wikilink nodes and newlines
+  const children = (lastChild as Paragraph).children;
+  assertEquals(children.length, 4); // 2 links + 2 newlines
+
+  const wikiLinks = children.filter((c) => c.type === "zk-wikilink");
+  assertEquals(wikiLinks.length, 2);
+  wikiLinks.forEach((link) => {
+    assertEquals(link.value.startsWith(`[[${dailyDir}/`), true);
+  });
 });
