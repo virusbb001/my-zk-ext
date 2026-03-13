@@ -48,7 +48,8 @@ async function action(date: string, notebookDir?: string) {
   }
 
   const content = await Deno.readTextFile(paths[0]);
-  const [newDailyNote, newCards] = await splitNote(content);
+  const ast = await parseWithCorrection(content, date);
+  const [newDailyNote, newCards] = splitNote(ast);
 
   const alreadyCreatedNames =
     (await Array.fromAsync(Deno.readDir(dailyDir)).catch((e) => {
@@ -129,14 +130,34 @@ export const remarkZk: Plugin<[], Root> = function () {
   };
 };
 
-/**
- * @return - [root, children]
- */
-export async function splitNote(content: string): Promise<[Root, Root[]]> {
+export async function parseWithCorrection(content: string, header: string) {
   const processor = unified().use(remarkParse).use(remarkZk);
   const ast = processor.parse(content);
   await processor.run(ast);
 
+  // When content doesn't start with heading,
+  // first chunk may be a card.
+  // It should be treat as an other card.
+  const shouldAddHeader = ast.children.length > 0 &&
+    ast.children[0].type !== "heading";
+  if (shouldAddHeader) {
+    ast.children.unshift(
+      u("heading", { depth: 1 as const }, [
+        u("text", { value: header }),
+      ]),
+    );
+    ast.children.push(
+      u("thematicBreak"),
+    );
+  }
+
+  return ast;
+}
+
+/**
+ * @return - [root, children]
+ */
+export function splitNote(ast: Root): [Root, Root[]] {
   const cards: RootContent[][] = [];
   let card: RootContent[] = [];
   for (const child of ast.children) {
@@ -217,7 +238,6 @@ export function setCardNames(
       value: "\n",
     }));
   });
-
   root.children.push(linkParagraph);
 
   return map;

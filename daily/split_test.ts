@@ -1,7 +1,16 @@
 import { assertEquals } from "@std/assert";
 import { unified } from "unified";
 import remarkParse from "remark-parse";
-import { Hashtag, num2chr, remarkZk, WikiLink } from "./split.ts";
+import {
+  Hashtag,
+  nameGenerator,
+  num2chr,
+  parseWithCorrection,
+  remarkZk,
+  setCardNames,
+  splitNote,
+  WikiLink,
+} from "./split.ts";
 import { Paragraph, Root, Text } from "mdast";
 
 Deno.test("remarkZk - should parse hashtags and wikilinks", async () => {
@@ -125,7 +134,11 @@ Deno.test("num2str", () => {
 });
 
 Deno.test("splitNote - should split note by thematic breaks", async () => {
-  const content = `Title
+  const content = `# 2026-01-01
+
+---
+
+Title
 First section.
 
 ---
@@ -136,22 +149,21 @@ Second section with #tag.
 
 Third section with [[link]].`;
 
-  const [dailyNote, cards] = await import("./split.ts").then((m) =>
-    m.splitNote(content)
+  const [dailyNote, cards] = splitNote(
+    await parseWithCorrection(content, "2026-01-01"),
   );
 
   // First section should be in dailyNote
   assertEquals(dailyNote.children.length, 1);
-  assertEquals(dailyNote.children[0].type, "paragraph");
+  assertEquals(dailyNote.children[0].type, "heading");
 
   // Other sections should be in cards
-  assertEquals(cards.length, 2);
+  assertEquals(cards.length, 3);
   assertEquals(cards[0].children[0].type, "paragraph");
   assertEquals(cards[1].children[0].type, "paragraph");
 });
 
-Deno.test("nameGenerator - should generate string of specified length", async () => {
-  const { nameGenerator } = await import("./split.ts");
+Deno.test("nameGenerator - should generate string of specified length", () => {
   const name4 = nameGenerator(4);
   assertEquals(name4.length, 4);
   const name8 = nameGenerator(8);
@@ -163,9 +175,41 @@ Deno.test("nameGenerator - should generate string of specified length", async ()
   assertEquals(validChars.test(name8), true);
 });
 
+Deno.test("parseWithCorrection - should add header if not starting with heading", async () => {
+  const content = "This is a card without heading.";
+  const header = "2026-03-14";
+  const ast = await parseWithCorrection(content, header);
+
+  // Should have: heading, paragraph, thematicBreak
+  assertEquals(ast.children.length, 3);
+  assertEquals(ast.children[0].type, "heading");
+  assertEquals((ast.children[0] as any).depth, 1);
+  assertEquals((ast.children[0] as any).children[0].value, header);
+  assertEquals(ast.children[1].type, "paragraph");
+  assertEquals(ast.children[2].type, "thematicBreak");
+});
+
+Deno.test("parseWithCorrection - should NOT add header if starting with heading", async () => {
+  const content = "# Existing Heading\n\nContent";
+  const header = "2026-03-14";
+  const ast = await parseWithCorrection(content, header);
+
+  // Should NOT have the added header
+  assertEquals(ast.children[0].type, "heading");
+  assertEquals((ast.children[0] as any).children[0].value, "Existing Heading");
+  assertEquals(ast.children.length, 2); // heading and paragraph
+});
+
+Deno.test("parseWithCorrection - should handle empty content", async () => {
+  const content = "";
+  const header = "2026-03-14";
+  const ast = await parseWithCorrection(content, header);
+
+  assertEquals(ast.children.length, 0);
+});
+
 Deno.test("setCardNames - should add links to root and return map", async () => {
-  const { setCardNames, splitNote } = await import("./split.ts");
-  const content = `Root
+  const content = `# Root
 
 ---
 
@@ -174,7 +218,7 @@ Card 1
 ---
 
 Card 2`;
-  const [root, cards] = await splitNote(content);
+  const [root, cards] = splitNote(await parseWithCorrection(content, "Root"));
 
   const dailyDir = "Daily/2026-03-13";
   const usedNames: string[] = ["used"];
