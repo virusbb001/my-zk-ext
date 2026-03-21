@@ -1,6 +1,6 @@
 import { Command } from "@cliffy/command";
 import { GlobalOptions, searchNotebooks } from "../lib/index.ts";
-import { CommandName, DailyDir } from "../lib/const.ts";
+import { CommandName, DailyDir, Zk } from "../lib/const.ts";
 import { join } from "@std/path";
 import { expandGlob } from "@std/fs";
 import { Plugin, unified } from "unified";
@@ -66,6 +66,14 @@ async function action(date: string, notebookDir?: string) {
   );
 
   await writeFiles(paths[0], newDailyNote, cardMap);
+  const command = new Deno.Command(Zk, {
+    args: [
+      "index",
+    ],
+  });
+  const process = command.spawn();
+  const status = await process.status;
+  Deno.exitCode = status.code;
 }
 
 export interface Hashtag extends Literal {
