@@ -185,8 +185,8 @@ Deno.test("parseWithCorrection - should add header if not starting with heading"
   assertEquals(ast.children[0].type, "heading");
   assertEquals((ast.children[0] as any).depth, 1);
   assertEquals((ast.children[0] as any).children[0].value, header);
-  assertEquals(ast.children[1].type, "paragraph");
-  assertEquals(ast.children[2].type, "thematicBreak");
+  assertEquals(ast.children[1].type, "thematicBreak");
+  assertEquals(ast.children[2].type, "paragraph");
 });
 
 Deno.test("parseWithCorrection - should NOT add header if starting with heading", async () => {

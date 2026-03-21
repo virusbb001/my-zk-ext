@@ -150,12 +150,12 @@ export async function parseWithCorrection(content: string, header: string) {
     ast.children[0].type !== "heading";
   if (shouldAddHeader) {
     ast.children.unshift(
+      u("thematicBreak"),
+    );
+    ast.children.unshift(
       u("heading", { depth: 1 as const }, [
         u("text", { value: header }),
       ]),
-    );
-    ast.children.push(
-      u("thematicBreak"),
     );
   }
 
