@@ -8,7 +8,7 @@ Currently, there are no ways to filter by metadata (without full-text search
 And then, I want to manipulate daily notes under my operation, manage task, or
 more.
 
-## Why GPv3?
+## Why GPLv3?
 
 Because zk has been released under
 [GPLv3](https://github.com/zk-org/zk/blob/10d93d5d6419941420e7775d409e530a7de59cbc/LICENSE)[^2].
