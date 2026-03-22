@@ -5,6 +5,9 @@
 Currently, there are no ways to filter by metadata (without full-text search
 [^1]). I want to manage tasks with zk, so I decided to make this.
 
+And then, I want to manipulate daily notes under my operation, manage task, or
+more.
+
 ## Why GPv3?
 
 Because zk has been released under
