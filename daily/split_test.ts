@@ -96,9 +96,7 @@ Deno.test("remarkZk - edge cases: should not parse hashtags in URLs or links", a
   const linkNode = paragraph.children[1];
   assertEquals(linkNode.type, "link");
 
-  console.log(paragraph.children);
   const rawUrlText = paragraph.children[2];
-  console.log(rawUrlText);
   assertEquals(rawUrlText.type, "text");
 });
 

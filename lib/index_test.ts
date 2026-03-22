@@ -77,7 +77,6 @@ Deno.test("searchNotebooks", async (t) => {
   }) && ok;
 
   Deno.chdir(oldCwd);
-  console.log(tmpDir);
   if (ok) {
     await Deno.remove(tmpDir, { recursive: true });
   }
