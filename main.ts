@@ -7,6 +7,7 @@ import { init } from "./init.ts";
 import { task } from "./tasks/index.ts";
 import { projects } from "./projects/index.ts";
 import { daily } from "./daily/index.ts";
+import { lit } from "./lit/index.ts";
 import { CommandName } from "./lib/const.ts";
 
 function makeCommand() {
@@ -21,6 +22,7 @@ function makeCommand() {
     .command("daily", daily())
     .command("task", task())
     .command("project", projects())
+    .command("lit", lit())
     .command("init", init());
 
   return command;
