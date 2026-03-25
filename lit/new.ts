@@ -54,12 +54,7 @@ async function action(
     Deno.exitCode = status.code;
   }
 
-  // const metadata = await getMetaDataFromURL(url);
-  const metadata: WebMetaData = {
-    author: "Article-Author,Article-Author3",
-    description: "Article Description Lorem Ipsum",
-    title: "Article-Title",
-  };
+  const metadata = await getMetaDataFromURL(url);
   await createNote(notebookDir, url, metadata, args);
 }
 
