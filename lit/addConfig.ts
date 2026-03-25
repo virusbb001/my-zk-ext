@@ -1,14 +1,13 @@
-import { CommandName, DailyDir } from "../lib/const.ts";
+import { CommandName, LiteratureDir } from "../lib/const.ts";
 import { GroupConfiguration, ZkConfig } from "../lib/type.ts";
 
 export function addConfig(zkConfig: ZkConfig): ZkConfig {
   const group = zkConfig.group ?? {};
-  group["literature"] = group["daily"] ?? ({
-    paths: [DailyDir],
+  group["literature"] = group["literature"] ?? ({
+    paths: [LiteratureDir],
     note: {
-      filename: "{{ format-date now '%Y-%m-%d' }}",
       extension: "md",
-      template: "daily.md",
+      template: "literature-web.md",
     },
   } satisfies GroupConfiguration);
   zkConfig.group = group;
