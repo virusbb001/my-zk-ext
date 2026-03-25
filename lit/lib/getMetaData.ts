@@ -189,7 +189,7 @@ export async function getWebMetaData(html: string): Promise<WebMetaData> {
   const description = getDescription(doc);
   const title = getTitle(doc);
   if (!author) {
-    console.warn("failed to get title");
+    console.warn("failed to get author");
   }
   if (!description) {
     console.warn("failed to get description");
