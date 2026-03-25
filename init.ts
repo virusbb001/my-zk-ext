@@ -2,6 +2,7 @@ import { Command } from "@cliffy/command";
 import { addConfigOfTask } from "./tasks/addConfigOfTask.ts";
 import { addConfigOfProject } from "./projects/addConfigOfProject.ts";
 import { addConfig as daily } from "./daily/addConfig.ts";
+import { addConfig as lit } from "./lit/addConfig.ts";
 import { addTemplate } from "./lib/init.ts";
 import { GlobalOptions, searchNotebooks } from "./lib/index.ts";
 import * as path from "@std/path";
@@ -13,6 +14,7 @@ function applyConfigs(config: ZkConfig): ZkConfig {
   let cfg = addConfigOfTask(config);
   cfg = addConfigOfProject(cfg);
   cfg = daily(cfg);
+  cfg = lit(cfg);
   return cfg;
 }
 
@@ -23,6 +25,7 @@ export async function action(notebookDir?: string) {
   }
   await addTemplate(notebooks, "tasks.md");
   await addTemplate(notebooks, "daily.md");
+  await addTemplate(notebooks, "literature-web.md");
 
   const configPath = path.join(notebooks, ".zk", "config.toml");
   const zkConfig = parse(await Deno.readTextFile(configPath)) as ZkConfig;
@@ -30,6 +33,7 @@ export async function action(notebookDir?: string) {
   await Deno.writeTextFile(configPath, stringify(modifiedConfig));
 
   await Deno.mkdir(path.join(notebooks, "Projects"), { recursive: true });
+  await Deno.mkdir(path.join(notebooks, "Literature"), { recursive: true });
 }
 
 export function init() {

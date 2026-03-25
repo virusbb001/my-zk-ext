@@ -12,4 +12,5 @@ export const Zk = "zk";
 export const TemplatesDir = path.join(import.meta.dirname!, "..", "templates");
 export const ProjectsDir = "Projects";
 export const DailyDir = "Daily";
+export const LiteratureDir = "Literature";
 export const EmulateZeroNote = ["--exclude", ProjectsDir, ProjectsDir];
