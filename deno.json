@@ -18,12 +18,14 @@
     }
   },
   "imports": {
+    "@b-fuze/deno-dom": "jsr:@b-fuze/deno-dom@^0.1.56",
     "@cliffy/command": "jsr:@cliffy/command@1.0.0-rc.8",
     "@std/assert": "jsr:@std/assert@1",
     "@std/fs": "jsr:@std/fs@^1.0.22",
     "@std/path": "jsr:@std/path@^1.1.4",
     "@std/toml": "jsr:@std/toml@^1.0.11",
     "@std/yaml": "jsr:@std/yaml@^1.0.11",
+    "jsonld": "npm:jsonld@^9.0.0",
     "remark": "https://esm.sh/remark@15",
     "remark-parse": "https://esm.sh/remark-parse@11",
     "remark-stringify": "https://esm.sh/remark-stringify@11",
@@ -35,6 +37,6 @@
     "mdast-util-find-and-replace": "https://esm.sh/mdast-util-find-and-replace@3"
   },
   "fmt": {
-    "exclude": ["templates", "test"]
+    "exclude": ["templates", "test", "tmp"]
   }
 }
