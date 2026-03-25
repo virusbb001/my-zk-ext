@@ -86,7 +86,6 @@ async function createNote(
   if (extras.length > 0) {
     additionalArgs.push(`--extra=${extras.join(",")}`);
   }
-  console.log(additionalArgs);
   const command = new Deno.Command(Zk, {
     args: [
       "new",
