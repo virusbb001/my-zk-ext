@@ -8,7 +8,12 @@
     "default": {
       "read": true,
       "write": true,
-      "env": ["ZK_NOTEBOOK_DIR"]
+      "env": [
+        "ZK_NOTEBOOK_DIR",
+        "NODE_V8_COVERAGE",
+        "UNDICI_NO_FG",
+        "JEST_WORKER_ID"
+      ]
     },
     "test": {
       "read": true,
