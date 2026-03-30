@@ -13,7 +13,8 @@
         "NODE_V8_COVERAGE",
         "UNDICI_NO_FG",
         "JEST_WORKER_ID"
-      ]
+      ],
+      "run": ["zk"]
     },
     "test": {
       "read": true,
