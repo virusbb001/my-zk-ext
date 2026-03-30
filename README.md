@@ -19,6 +19,12 @@ Run, `my-zk-ext init` in zk notebooks. This will add templates, groups and
 aliases. Aliases are `zk project` and `zk task`. Read ./docs/task-workflow.md to
 manage task with this.
 
+## Install
+
+`deno install -g --config ./deno.json --allow-all ./main.ts`
+
+`deno install -g` doesn't support `-P`.
+
 ## Development
 
 ### Setup
