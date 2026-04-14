@@ -14,7 +14,8 @@
         "UNDICI_NO_FG",
         "JEST_WORKER_ID"
       ],
-      "run": ["zk"]
+      "run": ["zk"],
+      "net": true
     },
     "test": {
       "read": true,
